@@ -1,5 +1,7 @@
 # ConjunctionReservoir / ConjuctionReservoir_chat.py (Rag like chat with your documents thing) 
 
+Making of: https://www.youtube.com/watch?v=ARhzFjPipqA 
+
 **Sentence-windowed conjunction retrieval grounded in auditory neuroscience.**
 
 Zero dependencies beyond NumPy. Pure Python. Runs in milliseconds.
