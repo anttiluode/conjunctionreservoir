@@ -218,7 +218,9 @@ Whether the Deerskin Hypothesis is correct is an open question. Whether sentence
 
 ---
 
-## 📄 conjunction_chat.py --- Local Document Chat (Offline RAG)
+## 📄 conjunction_chat.py --- Local Document Chat (Offline RAG) 
+(Note it feeds more to AI than what it shows in the queries, the system 
+prints out only first 90 letters of the queried text) 
 
 `conjunction_chat.py` lets you chat with **any local text document**
 using a local `.gguf` language model --- fully offline, with no API
