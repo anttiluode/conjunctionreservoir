@@ -2,6 +2,10 @@
 
 Making of: https://www.youtube.com/watch?v=ARhzFjPipqA 
 
+Huggingface space where you can try it: (you need to generate huggingface token for it to work :()
+
+https://huggingface.co/spaces/Aluode/Conjuction-Reservoir-Rag
+
 **Sentence-windowed conjunction retrieval grounded in auditory neuroscience.**
 
 Zero dependencies beyond NumPy. Pure Python. Runs in milliseconds.
