@@ -1,4 +1,4 @@
-# ConjunctionReservoir
+# ConjunctionReservoir / ConjuctionReservoir_chat.py (Rag like chat with your documents thing) 
 
 **Sentence-windowed conjunction retrieval grounded in auditory neuroscience.**
 
@@ -178,6 +178,7 @@ conjunctionreservoir/
 ├── examples/
 │   ├── basic_usage.py       # Simple retrieval example
 │   ├── adversarial_demo.py  # Demo of the false-positive problem
+│   ├── conjuction_chat.py   # Conjuction chat app
 │   └── sweep_coverage.py    # Visualizing the Vollan coverage trace
 ├── tests/
 │   └── test_retriever.py
@@ -216,6 +217,99 @@ ConjunctionReservoir instantiates one specific claim from this framework: that i
 Whether the Deerskin Hypothesis is correct is an open question. Whether sentence-level conjunction outperforms chunk-level averaging on specific co-occurrence queries is now empirically demonstrated.
 
 ---
+
+## 📄 conjunction_chat.py --- Local Document Chat (Offline RAG)
+
+`conjunction_chat.py` lets you chat with **any local text document**
+using a local `.gguf` language model --- fully offline, with no API
+calls.
+
+It uses **ConjunctionReservoir** to retrieve *sentence-level
+co-occurrences* from your document, then feeds only the relevant
+passages into your local LLM via `llama-cpp-python`.
+
+This avoids chunk-averaging failures in traditional RAG pipelines and
+ensures answers are grounded in sentences where query terms actually
+appear together.
+
+------------------------------------------------------------------------
+
+### Requirements
+
+``` bash
+pip install llama-cpp-python
+pip install -e /path/to/conjunctionreservoir
+```
+
+Optional GPU acceleration:
+
+``` bash
+pip install llama-cpp-python --extra-index-url \
+https://abetlen.github.io/llama-cpp-python/whl/cu121
+```
+
+------------------------------------------------------------------------
+
+### Usage
+
+``` bash
+python conjunction_chat.py <textfile> <model.gguf>
+python conjunction_chat.py <textfile>
+python conjunction_chat.py
+```
+
+-   If no `.gguf` is given, the script will scan common folders.
+-   If no document is given, it runs with a built‑in demo text.
+
+------------------------------------------------------------------------
+
+### Runtime Commands
+
+  Command          Description
+  ---------------- ----------------------------------------------
+  `<question>`     Ask about the document
+  `:retrieval`     Toggle showing retrieved passages
+  `:threshold N`   Set conjunction strictness (0.0--1.0)
+  `:strict`        All query terms must appear in same sentence
+  `:loose`         Disable co‑occurrence requirement
+  `:coverage`      Show Vollan sweep focus
+  `:clear`         Clear conversation history
+  `:help`          Show command help
+  `exit/quit`      Exit chat
+
+------------------------------------------------------------------------
+
+### Retrieval Behavior
+
+Each query triggers:
+
+1.  Sentence-windowed retrieval via `ConjunctionReservoir`
+2.  Vollan coverage update (optional)
+3.  Passage formatting
+4.  Prompt injection into local LLM
+5.  Streaming grounded response
+
+If no sentences meet the conjunction threshold, the system temporarily
+loosens the gate and retries retrieval.
+
+------------------------------------------------------------------------
+
+### Supported Prompt Formats (Auto-detected)
+
+-   LLaMA‑3
+-   Phi‑3
+-   Mistral / Mixtral
+-   Gemma
+-   ChatML (default fallback)
+
+------------------------------------------------------------------------
+
+### Notes
+
+-   No embeddings required
+-   No pretrained retriever required
+-   Millisecond retrieval on large corpora
+-   Fully local document QA
 
 ## References
 
